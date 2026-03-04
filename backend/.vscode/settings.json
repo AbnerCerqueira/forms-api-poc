@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "java.autobuild.enabled": false,
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "java.format.settings.url": ".vscode/java-formatter.xml",
+  "java.format.settings.profile": "ProjectJavaStyle",
+  "java.import.generatesMetadataFilesAtProjectRoot": false,
+  "java.import.exclusions": ["**/target/**", "**/bin/**"],
+  "java.compile.nullAnalysis.mode": "automatic"
+}

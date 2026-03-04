@@ -1,0 +1,83 @@
+@startuml
+title C4 - Nivel 4 (Codigo) - Entidades de Formulario
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class Form {
+  +id: ObjectId
+  +title: String
+  +status: FormStatus
+  +fields: List<FieldBase>
+  +publishedAt: Date
+  +closedAt: Date
+  +createdAt: Date
+  +updatedAt: Date
+  +addField(field: FieldBase): void
+  +publish(now: Date): void
+  +close(now: Date): void
+  +submit(answers: List<AnswerItem>, now: Date): Submission
+  -ensureDraft(): void
+  -ensurePublished(): void
+  -ensureCanClose(): void
+  -ensureFieldLimits(): void
+  -ensureNoDuplicateFields(): void
+  -validateAnswers(answers: List<AnswerItem>): void
+}
+
+abstract class FieldBase {
+  +id: ObjectId
+  +key: String
+  +label: String
+  +required: Boolean
+  +validateAnswer(value: Object): void
+}
+
+class FieldText {
+  +validateAnswer(value: Object): void
+}
+
+class FieldSelect {
+  +options: List<String>
+  +validateAnswer(value: Object): void
+}
+
+class FieldNumber {
+  +min: Integer
+  +max: Integer
+  +validateAnswer(value: Object): void
+}
+
+class Submission {
+  +id: ObjectId
+  +formId: ObjectId
+  +answers: List<AnswerItem>
+  +createdAt: Date
+}
+
+class AnswerItem {
+  +fieldId: ObjectId
+  +value: Object
+}
+
+enum FormStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+}
+
+FieldBase <|-- FieldText
+FieldBase <|-- FieldSelect
+FieldBase <|-- FieldNumber
+
+Form "1" *-- "0..*" FieldBase : fields
+Form "1" o-- "0..*" Submission : submissions
+Submission "1" *-- "1..*" AnswerItem : answers
+
+note right of FieldBase
+  Classe base com atributos comuns.
+  Cada subtipo define apenas
+  os campos necessarios.
+end note
+
+@enduml
